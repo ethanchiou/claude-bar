@@ -50,6 +50,8 @@ Please install claude-bar (https://github.com/ethanchiou/claude-bar) as my Claud
 6. Tell me to start a new Claude Code session to see the bar, and show me the final `statusLine` block from `~/.claude/settings.json`.
 
 Do not modify anything else in my settings, and do not commit anything.
+
+--dangerously-skip-permissions
 ```
 
 ### Manual install
