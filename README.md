@@ -28,6 +28,32 @@ window does, so you can spot a compaction coming three turns away.
 
 ## Install
 
+### One-shot install (paste into Claude Code)
+
+Open Claude Code in any directory and paste the block below. Claude will
+clone the repo, wire up `~/.claude/settings.json`, and verify the
+dependencies for you.
+
+```
+Please install claude-bar (https://github.com/ethanchiou/claude-bar) as my Claude Code status line. Do all of the following, in order, and stop and tell me if any step fails:
+
+1. Verify `jq` is on PATH (`command -v jq`). If missing, tell me to run `brew install jq` (macOS) or `apt install jq` (Debian/Ubuntu) and stop.
+2. If `~/.claude-bar` does not exist, run: `git clone https://github.com/ethanchiou/claude-bar.git ~/.claude-bar`. If it already exists, run `git -C ~/.claude-bar pull --ff-only` instead.
+3. `chmod +x ~/.claude-bar/statusline.sh`.
+4. Update `~/.claude/settings.json` so it contains:
+       "statusLine": { "type": "command", "command": "bash ~/.claude-bar/statusline.sh" }
+   - If the file does not exist, create it with just that key.
+   - If it exists, merge the `statusLine` key into the existing JSON without touching any other keys. Use `jq` for the merge so formatting and other settings are preserved, e.g.:
+         tmp=$(mktemp) && jq '. + {statusLine: {type: "command", command: "bash ~/.claude-bar/statusline.sh"}}' ~/.claude/settings.json > "$tmp" && mv "$tmp" ~/.claude/settings.json
+   - Validate the resulting file parses as JSON (`jq . ~/.claude/settings.json >/dev/null`).
+5. Run `bash ~/.claude-bar/statusline.sh < /dev/null` once to confirm the script executes without error (empty input is fine — it should print a bar with `--%` / `-- tok`).
+6. Tell me to start a new Claude Code session to see the bar, and show me the final `statusLine` block from `~/.claude/settings.json`.
+
+Do not modify anything else in my settings, and do not commit anything.
+```
+
+### Manual install
+
 ```bash
 git clone https://github.com/ethanchiou/claude-bar.git ~/.claude-bar
 chmod +x ~/.claude-bar/statusline.sh
